@@ -4,24 +4,37 @@
 
 ## 1. 저장소 클론
 
+클론 이후 저장소 폴더로 이동
+
 ```bash
 git clone https://github.com/googleapis/genai-toolbox
 ```
 
-## 2. Toolbox 설치
+## 2. Toolbox 설치 및 테스트 DB 설치
 
 릴리스 페이지에서 OS와 CPU 환경에 맞는 binary 를 내려받아 실행 권한을 부여합니다.
 
 ```bash
-export VERSION=0.10.0
-curl -O https://storage.googleapis.com/genai-toolbox/v$VERSION/linux/amd64/toolbox
-chmod +x toolbox
+https://storage.googleapis.com/genai-toolbox/v0.10.0/windows/amd64/toolbox.exe
 ```
 
-또는 다음 명령으로 직접 빌드할 수도 있습니다.
+postgers DB 간단하게 도커로 구동
 
 ```bash
-go install github.com/googleapis/genai-toolbox@v0.10.0
+docker run --name toolbox-postgres -e POSTGRES_DB=toolbox_db -e POSTGRES_USER=toolbox_user -e POSTGRES_PASSWORD=my-password -p 5432:5432 -d postgres:14
+```
+
+테스트 스키마 생성
+
+```sql
+CREATE TABLE hotels (
+  id SERIAL PRIMARY KEY,
+  name TEXT,
+  location TEXT,
+  checkin_date DATE,
+  checkout_date DATE,
+  booked BIT DEFAULT B'0'
+);
 ```
 
 ## 3. `tools.yaml` 작성
@@ -106,12 +119,12 @@ toolsets:
 ## 4. 서버 실행
 
 ```bash
-./toolbox --tools-file "tools.yaml"
+.\toolbox.exe --tools-file "tools.yaml"
 ```
 
 ## 5. MCP Inspector 실행 및 STTP 연결
 
-새 터미널에서 MCP Inspector를 실행합니다.
+새 터미널에서 MCP Inspector를 실행합니다. (PowerShell 이 아닌 CMD로 실행)     15
 
 ```bash
 npx @modelcontextprotocol/inspector
