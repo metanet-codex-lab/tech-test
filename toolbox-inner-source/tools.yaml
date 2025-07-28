@@ -1,0 +1,38 @@
+sources:
+  my-mysql-source:
+    kind: mysql
+    host: khadasbonge.iptime.org
+    port: 9090
+    database: trm_database
+    user: trm
+    password: "trm"
+
+tools:
+
+  search-users-mysql:
+    kind: mysql-sql
+    source: my-mysql-source
+    description: TRM에서 회원명으로 검색
+    parameters:
+      - name: name
+        type: string
+        description: 회원명
+    statement: SELECT USER_NAME FROM TRM001 WHERE USER_NAME LIKE CONCAT('%', ?, '%');
+
+  local-llm:
+    description: 로컬에서 실행 중인 LLM (예: llama3 via Ollama)
+    source:
+      kind: openai-compatible
+      openapi: https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml
+      base_url: http://localhost:11434/v1
+      headers:
+        Authorization: ""
+    plugin:
+      type: openai
+      model: llama3
+      mode: chat
+
+toolsets:
+  my-toolset:
+    - search-users-mysql
+    - local-llm

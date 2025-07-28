@@ -18,7 +18,7 @@ git clone https://github.com/googleapis/genai-toolbox
 https://storage.googleapis.com/genai-toolbox/v0.10.0/windows/amd64/toolbox.exe
 ```
 
-postgers DB 간단하게 도커로 구동
+postgers DB 간단하게 도커로 구동 (tools 에 추가할 수 있는 MCP가 있을 경우 필요없음 [tools.yaml 은 변경이 필요함])
 
 ```bash
 docker run --name toolbox-postgres -e POSTGRES_DB=toolbox_db -e POSTGRES_USER=toolbox_user -e POSTGRES_PASSWORD=my-password -p 5432:5432 -d postgres:14
