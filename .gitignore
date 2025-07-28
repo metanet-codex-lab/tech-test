@@ -1,0 +1,6 @@
+# 무시할 항목 명시적으로 나열
+genai-toolbox/
+node_modules/
+npx/
+package-lock.json
+package.json
